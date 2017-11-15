@@ -23,11 +23,11 @@ const instructions = Platform.select({
 export default class App extends Component<{}> {
 
   componentDidMount() {
-    firebase.auth().createUserWithEmailAndPassword('manual@email.com', 'password1234')
+    /* firebase.auth().createUserWithEmailAndPassword('manual@email.com', 'password1234')
       .then((res) => {
         console.log('res',res)
         alert('success',res);
-      });
+      }); */
   }
   render() {
     return (
