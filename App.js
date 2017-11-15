@@ -9,7 +9,10 @@ import {
   Platform,
   StyleSheet,
   Text,
-  View
+  View,
+  Button,
+  TouchableOpacity,
+  TextInput,
 } from 'react-native';
 import firebase from 'react-native-firebase';
 
@@ -20,24 +23,61 @@ const instructions = Platform.select({
     'Shake or press menu button for dev menu',
 });
 
+var config = {
+  appId: "1:321647296520:ios:d2a6c381620d43a9",
+  apiKey: "AIzaSyB9lpk8wLConvKe0ZvXdGGztJ6X2lFiN10",
+  authDomain: "myfirstfirebaseproject-493e9.firebaseapp.com",
+  databaseURL: "https://myfirstfirebaseproject-493e9.firebaseio.com",
+  projectId: "myfirstfirebaseproject-493e9",
+  storageBucket: "myfirstfirebaseproject-493e9.appspot.com",
+  messagingSenderId: "321647296520"
+};
+firebase.initializeApp(config);
+
 export default class App extends Component<{}> {
 
+  constructor(props, context) {
+    super(props, context);
+    this.state = {
+      email: '',
+      password: '',
+    }
+  }
+
   componentDidMount() {
-    /* firebase.auth().createUserWithEmailAndPassword('manual@email.com', 'password1234')
+     firebase.auth().createUserWithEmailAndPassword('manualll@email.com', 'password12345')
       .then((res) => {
         console.log('res',res)
         alert('success',res);
-      }); */
+      }); 
   }
+
+  registerUser() {
+    firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
+      .then((res) => {
+        console.log('res', res)
+        alert('success', res);
+      });
+  }
+
   render() {
+    let { email, password } = this.state;
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          Welcome to React Native!
+          Register user!
         </Text>
-        <Text style={styles.instructions}>
-          To get started, edit App.js
-        </Text>
+        <TextInput
+          value={email}
+          onChangeText={(email) => this.setState({ email })}
+        />
+        <TextInput
+          value={password}
+          onChangeText={(password) => this.setState({ password })}
+        />
+        <TouchableOpacity onPress={this.registerUser}>
+          <Text>Sign up</Text>
+        </TouchableOpacity>
         <Text style={styles.instructions}>
           {instructions}
         </Text>
