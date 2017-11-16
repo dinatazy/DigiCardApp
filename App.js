@@ -15,6 +15,7 @@ import {
   TextInput,
 } from 'react-native';
 import firebase from 'react-native-firebase';
+import { AccessToken, LoginManager } from 'react-native-fbsdk';
 
 var config = {
   appId: "1:321647296520:ios:d2a6c381620d43a9",
@@ -30,33 +31,60 @@ firebase.initializeApp(config);
 export default class App extends Component<{}> {
 
   constructor(props, context) {
-		super(props, context);
-		let { passedProps } = props;
-		this.state = {
+    super(props, context);
+    let { passedProps } = props;
+    this.state = {
       email: '',
       password: '',
-		}
-	}
+    }
+  }
 
   componentDidMount() {
   }
 
-/*   registerUser() {
-    firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
-      .then((res) => {
-        console.log('res', res)
-        alert('success', res);
-      });
-  } */
+  /*   registerUser() {
+      firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
+        .then((res) => {
+          console.log('res', res)
+          alert('success', res);
+        });
+    } */
 
-  signInUser(){
+  signInUser() {
     firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
-    .then((res)=>{
-      console.log('Success , Signed in', res)
-    })
-    .catch((err)=>{
-      console.log('Failed , Signed in', err)
-    })
+      .then((res) => {
+        console.log('Success , Signed in', res)
+      })
+      .catch((err) => {
+        console.log('Failed , Signed in', err)
+      })
+  }
+
+  loginWithFacebook() {
+    LoginManager
+      .logInWithReadPermissions(['public_profile', 'email'])
+      .then((result) => {
+        if (result.isCancelled) {
+          return Promise.reject(new Error('The user cancelled the request'));
+        }
+
+        console.log(`Login success with permissions: ${result.grantedPermissions.toString()}`);
+        // get the access token
+        return AccessToken.getCurrentAccessToken();
+      })
+      .then(data => {
+        // create a new firebase credential with the token
+        const credential = firebase.auth.FacebookAuthProvider.credential(data.accessToken);
+
+        // login with credential
+        return firebase.auth().signInWithCredential(credential);
+      })
+      .then((currentUser) => {
+        console.warn(JSON.stringify(currentUser.toJSON()));
+      })
+      .catch((error) => {
+        console.log(`Login fail with error: ${error}`);
+      });
   }
 
   render() {
@@ -78,7 +106,7 @@ export default class App extends Component<{}> {
           value={password}
           onChangeText={(password) => this.setState({ password })}
         />
-        <TouchableOpacity onPress={()=>this.signInUser()}>
+        <TouchableOpacity onPress={() => this.loginWithFacebook()}>
           <Text>Sign up</Text>
         </TouchableOpacity>
       </View>
