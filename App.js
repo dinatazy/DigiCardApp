@@ -16,13 +16,6 @@ import {
 } from 'react-native';
 import firebase from 'react-native-firebase';
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' +
-    'Cmd+D or shake for dev menu',
-  android: 'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
-
 var config = {
   appId: "1:321647296520:ios:d2a6c381620d43a9",
   apiKey: "AIzaSyB9lpk8wLConvKe0ZvXdGGztJ6X2lFiN10",
@@ -37,27 +30,33 @@ firebase.initializeApp(config);
 export default class App extends Component<{}> {
 
   constructor(props, context) {
-    super(props, context);
-    this.state = {
+		super(props, context);
+		let { passedProps } = props;
+		this.state = {
       email: '',
       password: '',
-    }
-  }
+		}
+	}
 
   componentDidMount() {
-     firebase.auth().createUserWithEmailAndPassword('manualll@email.com', 'password12345')
-      .then((res) => {
-        console.log('res',res)
-        alert('success',res);
-      }); 
   }
 
-  registerUser() {
+/*   registerUser() {
     firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
       .then((res) => {
         console.log('res', res)
         alert('success', res);
       });
+  } */
+
+  signInUser(){
+    firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
+    .then((res)=>{
+      console.log('Success , Signed in', res)
+    })
+    .catch((err)=>{
+      console.log('Failed , Signed in', err)
+    })
   }
 
   render() {
@@ -68,19 +67,20 @@ export default class App extends Component<{}> {
           Register user!
         </Text>
         <TextInput
+          style={{ width: 100, height: 60 }}
+          placeholder='Email'
           value={email}
           onChangeText={(email) => this.setState({ email })}
         />
         <TextInput
+          style={{ width: 100, height: 60 }}
+          placeholder='Password'
           value={password}
           onChangeText={(password) => this.setState({ password })}
         />
-        <TouchableOpacity onPress={this.registerUser}>
+        <TouchableOpacity onPress={()=>this.signInUser()}>
           <Text>Sign up</Text>
         </TouchableOpacity>
-        <Text style={styles.instructions}>
-          {instructions}
-        </Text>
       </View>
     );
   }
