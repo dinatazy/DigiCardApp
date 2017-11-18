@@ -23,18 +23,20 @@
 	<key>STORAGE_BUCKET</key>
 	<string>myfirstfirebaseproject-493e9.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_APPINVITE_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_GCM_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>GOOGLE_APP_ID</key>
 	<string>1:321647296520:ios:d2a6c381620d43a9</string>
 	<key>DATABASE_URL</key>
 	<string>https://myfirstfirebaseproject-493e9.firebaseio.com</string>
+	<key>FACEBOOK_APP_ID</key>
+	<string>191292088096229</string>
 </dict>
 </plist>
