@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">DigiCardApp</string>
+    <string name="facebook_app_id">191292088096229</string>
+    <string name="fb_login_protocol_scheme">fb191292088096229</string>
 </resources>
